@@ -6,6 +6,10 @@ variable "REGISTRY_IMAGE" {
   default = ""
 }
 
+variable "CERTBOT_VERSION" {
+  default = ""
+}
+
 target "default" {
   dockerfile = "Dockerfile"
   args = {
