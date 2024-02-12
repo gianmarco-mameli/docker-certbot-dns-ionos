@@ -6,9 +6,8 @@ ARG USER_GID=${USER_UID}
 
 FROM certbot/certbot:${CERTBOT_VERSION}
 
-RUN addgroup --gid "${USER_GID}" "${USERNAME}" \
-    &&  adduser --disabled-password --home "$(pwd)" --ingroup "${USERNAME}" \
-    --no-create-home --uid "${USER_UID}" "${USERNAME}"
+RUN addgroup -g "${USER_GID}" -S "${USERNAME}" \
+    && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}"
 
 USER certbot
 RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}"
