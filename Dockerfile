@@ -7,7 +7,7 @@ ARG USER_GID=1000
 FROM certbot/certbot:${CERTBOT_VERSION}
 
 # RUN addgroup -g "${USER_GID}" -S "${USERNAME}"
-RUN addgroup -g "${USER_GID}" -S pippo
+RUN addgroup -g $USER_GID -S pippo
     # && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}"
 
 # USER certbot
