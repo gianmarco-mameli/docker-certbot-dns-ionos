@@ -7,7 +7,7 @@ variable "REGISTRY_IMAGE" {
 }
 
 variable "CERTBOT_VERSION" {
-  default = "${CERTBOT_VERSION}"
+  default = ""
 }
 
 target "default" {
