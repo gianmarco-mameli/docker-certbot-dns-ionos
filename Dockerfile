@@ -1,4 +1,4 @@
-FROM certbot/certbot:${CERTBOT_VERSION}
+FROM certbot/certbot:${CERTBOTVERSION}
 
 ARG USERNAME=certbot
 ARG USER_UID=1000
