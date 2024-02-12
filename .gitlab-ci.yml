@@ -1,0 +1,54 @@
+variables:
+  IMAGE_NAME: docker-certbot-dns-ionos
+  VERSION: 2024.1.8
+  CERTBOT_VERSION: v2.9.0
+  REGISTRY_IMAGE: $HARBOR_HOST/$HARBOR_PROJECT/$IMAGE_NAME
+  # REGISTRY_IMAGE: $DOCKERHUB_USER/$IMAGE_NAME
+  BUILDER_IMAGE: "${IMAGE_NAME}-builder-$CI_CONCURRENT_ID"
+
+image: docker:$DOCKER_VERSION
+
+stages:
+  - linting
+  - build
+
+before_script:
+  # - docker login -u $HARBOR_USERNAME -p $HARBOR_PASSWORD $HARBOR_HOST
+  - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+  - docker run --privileged --rm tonistiigi/binfmt --install all
+  - docker buildx create --use --bootstrap --name ${BUILDER_IMAGE} --config=buildkitd.toml
+
+after_script:
+  - docker buildx stop ${BUILDER_IMAGE}
+  - docker buildx rm ${BUILDER_IMAGE}
+
+buildkit_toml:
+  stage: .pre
+  image: alpine
+  before_script: []
+  after_script: []
+  script:
+    - apk add envsubst
+    - envsubst < buildkitd.toml.tmpl > buildkitd.toml
+  artifacts:
+    paths:
+      - buildkitd.toml
+
+.hadolint:
+  stage: linting
+  image: registry.gitlab.com/pipeline-components/hadolint:latest
+  script:
+    - hadolint Dockerfile
+  allow_failure: true
+  rules:
+    - changes:
+      - Dockerfile*
+
+build_publish:
+  stage: build
+  script:
+    - docker buildx bake --push --file package_bake.hcl --progress plain
+  rules:
+    - changes:
+      - Dockerfile*
+      - package_bake.hcl
