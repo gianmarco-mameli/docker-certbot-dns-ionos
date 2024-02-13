@@ -21,4 +21,5 @@ RUN chmod +x /entrypoint.sh
 
 USER certbot
 
-ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["tail", "-f", "/dev/null"]
