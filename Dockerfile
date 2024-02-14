@@ -18,6 +18,7 @@ COPY entrypoint.sh /entrypoint.sh
 
 USER root
 RUN chmod +x /entrypoint.sh \
+    && mkdir -p /var/lib/letsencrypt /var/log/letsencrypt \
     && chown ${USERNAME}:${USERNAME} /var/lib/letsencrypt /var/log/letsencrypt
 
 USER certbot
