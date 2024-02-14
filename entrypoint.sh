@@ -1,12 +1,12 @@
 #!/bin/sh
-set -e
+# set -e
 
 env | grep -w  IONOS_DOMAINS > /dev/null
 if [ $? -eq 0 ]
 then
    DOMAINS=$(echo "${IONOS_DOMAINS}" | tr "," " ")
    for domain in ${DOMAINS}; do
-      DOMAINS_ARGS=${DOMAINS_ARGS}" -d $dom"
+      DOMAINS_ARGS=${DOMAINS_ARGS}" -d $domain"
    done
 else
    echo "IONOS_DOMAINS not set"

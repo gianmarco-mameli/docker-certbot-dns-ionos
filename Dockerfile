@@ -11,17 +11,14 @@ ENV USER_GID "${USER_UID}"
 RUN addgroup -g "${USER_GID}" -S "${USERNAME}" \
     && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}"
 
-USER certbot
-RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}"
-
 COPY entrypoint.sh /entrypoint.sh
 
-USER root
 RUN chmod +x /entrypoint.sh \
-    && mkdir -p /var/lib/letsencrypt /var/log/letsencrypt \
-    && chown ${USERNAME}:${USERNAME} /var/lib/letsencrypt /var/log/letsencrypt
+    && mkdir -p /var/lib/letsencrypt /var/log/letsencrypt /etc/letsencrypt \
+    && chown ${USERNAME}:${USERNAME} /var/lib/letsencrypt /var/log/letsencrypt /etc/letsencrypt
 
 USER certbot
+RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}"
 
 # ENTRYPOINT ["/entrypoint.sh"]
 ENTRYPOINT ["tail", "-f", "/dev/null"]
