@@ -17,7 +17,8 @@ RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}"
 COPY entrypoint.sh /entrypoint.sh
 
 USER root
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh \
+    && chown ${USERNAME}:${USERNAME} /var/lib/letsencrypt /var/log/letsencrypt
 
 USER certbot
 

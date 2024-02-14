@@ -6,7 +6,7 @@ if [ $? -eq 0 ]
 then
    DOMAINS=$(echo "${IONOS_DOMAINS}" | tr "," " ")
    for domain in ${DOMAINS}; do
-      DOMAINS=${DOMAINS}" -d $dom"
+      DOMAINS_ARGS=${DOMAINS_ARGS}" -d $dom"
    done
 else
    echo "IONOS_DOMAINS not set"
@@ -22,4 +22,4 @@ fi
                        --server $IONOS_SERVER \
                        --agree-tos \
                        --email $IONOS_EMAIL \
-                       --rsa-key-size 4096 $DOMAINS
+                       --rsa-key-size 4096 $DOMAINS_ARGS
