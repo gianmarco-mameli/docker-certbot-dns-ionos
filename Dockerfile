@@ -8,7 +8,6 @@ ENV USERNAME certbot
 ENV USER_UID 1000
 ENV USER_GID "${USER_UID}"
 
-#
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
     && apk add --no-cache sudo=1.9.13_p3-r2 \
@@ -25,7 +24,7 @@ RUN chmod +x /certbot_script.sh /entrypoint.sh
 
 USER ${USERNAME}
 
-HEALTHCHECK CMD [ "/usr/bin/killall -0 crond" ]
+HEALTHCHECK CMD [ "sudo /usr/bin/killall -0 crond" ]
 
-ENTRYPOINT ["tail", "-f", "/dev/null"]
-# ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["/entrypoint.sh"]
