@@ -8,9 +8,10 @@ ENV USERNAME certbot
 ENV USER_UID 1000
 ENV USER_GID "${USER_UID}"
 
-# apk add --no-cache sudo=1.9.15_p5-r0 \
+#
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
+    && apk add --no-cache sudo=1.9.15_p5-r0 \
     && adduser -u "${USER_UID}" -S "${USERNAME}" -G sudo
 
 RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}"
