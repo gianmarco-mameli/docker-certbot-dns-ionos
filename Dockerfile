@@ -9,7 +9,8 @@ ENV USER_UID 1000
 ENV USER_GID "${USER_UID}"
 
 RUN addgroup -g "${USER_GID}" -S "${USERNAME}" \
-    && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}"
+    && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}" \
+    && apk add --no-cache su-exec=0.2-r3
 
 RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}"
 
@@ -22,4 +23,5 @@ USER ${USERNAME}
 
 HEALTHCHECK CMD [ "/usr/bin/killall -0 crond" ]
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+# ENTRYPOINT ["/entrypoint.sh"]
