@@ -13,14 +13,14 @@ ARG VERSION
 
 RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}"
 
+COPY certbot_script.sh /certbot_script.sh
 COPY entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /certbot_script.sh /entrypoint.sh
     # && mkdir -p /var/lib/letsencrypt /var/log/letsencrypt /etc/letsencrypt \
     # && chown ${USERNAME}:${USERNAME} /var/lib/letsencrypt /var/log/letsencrypt /etc/letsencrypt
 
 # USER certbot
 
-
-# ENTRYPOINT ["/entrypoint.sh"]
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
