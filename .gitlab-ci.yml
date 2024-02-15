@@ -39,7 +39,7 @@ buildkit_toml:
   image: registry.gitlab.com/pipeline-components/hadolint:latest
   script:
     - hadolint Dockerfile
-  allow_failure: true
+  # allow_failure: true
   rules:
     - changes:
       - Dockerfile*
