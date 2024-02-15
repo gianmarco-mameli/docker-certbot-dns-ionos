@@ -11,7 +11,7 @@ ENV USER_GID "${USER_UID}"
 #
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
-    && apk add --no-cache sudo=1.9.15_p5-r0 \
+    && apk add --no-cache sudo=1.9.13_p3-r2 \
     && adduser -u "${USER_UID}" -S "${USERNAME}" -G sudo
 
 RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}"
