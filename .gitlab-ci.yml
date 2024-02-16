@@ -14,7 +14,7 @@ stages:
 
 before_script:
   - docker login -u $HARBOR_USERNAME -p $HARBOR_PASSWORD $HARBOR_HOST
-  # - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+  - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
   - docker run --privileged --rm tonistiigi/binfmt --install all
   - docker buildx create --use --bootstrap --name ${BUILDER_IMAGE} --config=buildkitd.toml
 
@@ -39,10 +39,9 @@ buildkit_toml:
   image: registry.gitlab.com/pipeline-components/hadolint:latest
   script:
     - hadolint Dockerfile
-  # allow_failure: true
   rules:
     - changes:
-      - Dockerfile*
+        - Dockerfile*
 
 build_publish:
   stage: build
@@ -50,5 +49,5 @@ build_publish:
     - docker buildx bake --push --file package_bake.hcl --progress plain
   rules:
     - changes:
-      - Dockerfile*
-      - package_bake.hcl
+        - Dockerfile*
+        - package_bake.hcl

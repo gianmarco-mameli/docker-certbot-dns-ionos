@@ -26,5 +26,5 @@ USER ${USERNAME}
 
 HEALTHCHECK CMD ["pgrep","-f","certbot_entry.sh"]
 
-# ENTRYPOINT ["tail", "-f", "/dev/null"]
+# ENTRYPOINT ["tail", "-f", "/dev/null"] # for testing purposes
 ENTRYPOINT ["/certbot_entry.sh"]

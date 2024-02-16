@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if env | grep -w IONOS_DOMAINS > /dev/null; then
+if env | grep -w IONOS_DOMAINS >/dev/null; then
 	DOMAINS=$(echo "${IONOS_DOMAINS}" | tr "," " ")
 	for domain in ${DOMAINS}; do
 		DOMAINS_ARGS=${DOMAINS_ARGS}" -d ${domain}"
