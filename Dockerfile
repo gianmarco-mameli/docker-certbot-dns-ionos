@@ -24,7 +24,7 @@ RUN chmod +x /certbot_script.sh /certbot_entry.sh
 
 USER ${USERNAME}
 
-HEALTHCHECK CMD [ "pgrep certbot_entry.sh > /dev/null"]
+HEALTHCHECK CMD [ "pgrep -f certbot_entry.sh > /dev/null"]
 
 # ENTRYPOINT ["tail", "-f", "/dev/null"]
 ENTRYPOINT ["/certbot_entry.sh"]
