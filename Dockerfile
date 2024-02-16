@@ -18,13 +18,13 @@ RUN apk update --no-cache \
 RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}"
 
 COPY certbot_script.sh /certbot_script.sh
-COPY entrypoint.sh /entrypoint.sh
+COPY certbot_entry.sh /certbot_entry.sh
 
-RUN chmod +x /certbot_script.sh /entrypoint.sh
+RUN chmod +x /certbot_script.sh /certbot_entry.sh
 
 USER ${USERNAME}
 
-HEALTHCHECK CMD [ "sudo /usr/bin/killall -0 crond" ]
+HEALTHCHECK CMD [ "pgrep certbot_entry.sh > /dev/null"]
 
 # ENTRYPOINT ["tail", "-f", "/dev/null"]
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/certbot_entry.sh"]
