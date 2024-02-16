@@ -2,6 +2,13 @@ ARG CERTBOT_VERSION
 FROM certbot/certbot:${CERTBOT_VERSION}
 
 ARG VERSION
+
+LABEL org.opencontainers.image.authors="gnammyx@gmail.com"
+LABEL org.opencontainers.image.url="https://hub.docker.com/repository/docker/gmmserv/docker-certbot-dns-ionos"
+LABEL org.opencontainers.image.source="https://github.com/gianmarco-mameli/docker-certbot-dns-ionos"
+LABEL org.opencontainers.image.base.name="certbot/certbot:${CERTBOT_VERSION}"
+LABEL org.opencontainers.image.version="${VERSION}"
+
 ENV IONOS_VERSION=${VERSION}
 
 ENV USERNAME certbot
