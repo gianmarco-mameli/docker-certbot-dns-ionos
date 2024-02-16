@@ -12,7 +12,7 @@ fi
 
 /usr/local/bin/certbot certonly \
 	--authenticator dns-ionos \
-	--dns-ionos-credentials /etc/letsencrypt/.secrets/ionos.ini \
+	--dns-ionos-credentials "${IONOS_CREDENTIALS}" \
 	--dns-ionos-propagation-seconds "${IONOS_PROPAGATION}" \
 	--non-interactive \
 	--expand \
