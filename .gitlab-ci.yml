@@ -25,8 +25,8 @@ after_script:
 buildkit_toml:
   stage: .pre
   image: alpine
-  before_script: []
-  after_script: []
+  before_script: [] # to exclude default before_script
+  after_script: [] # to exclude default after_script
   script:
     - apk add envsubst
     - envsubst < buildkitd.toml.tmpl > buildkitd.toml
@@ -39,15 +39,15 @@ buildkit_toml:
   image: registry.gitlab.com/pipeline-components/hadolint:latest
   script:
     - hadolint Dockerfile
-  rules:
-    - changes:
-        - Dockerfile*
+  # rules:
+  #   - changes:
+  #       - Dockerfile*
 
 build_publish:
   stage: build
   script:
     - docker buildx bake --push --file package_bake.hcl --progress plain
-  rules:
-    - changes:
-        - Dockerfile*
-        - package_bake.hcl
+  # rules:
+  #   - changes:
+  #       - Dockerfile*
+  #       - package_bake.hcl
