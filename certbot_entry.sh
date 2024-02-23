@@ -8,4 +8,4 @@ echo "Crontab entry ${IONOS_CRONTAB} added"
 sudo touch /etc/environment
 echo "Starting crond with the following env variables"
 printenv | grep -i "IONOS_" | sudo -E tee -a /etc/environment
-/usr/sbin/crond -l 8 -f
+/usr/sbin/crond -l 2 -f
