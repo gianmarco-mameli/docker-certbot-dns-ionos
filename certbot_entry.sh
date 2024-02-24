@@ -1,8 +1,8 @@
 #!/bin/sh
 
 echo "docker-certbot-dns-ionos v${IONOS_VERSION} started"
-
-echo "${IONOS_CRONTAB} /bin/sh /certbot_script.sh > /dev/stdout 2>&1" | sudo -E tee -a /etc/crontabs/root >/dev/null
+#  > /dev/stdout 2>&1
+echo "${IONOS_CRONTAB} /bin/sh /certbot_script.sh" | sudo -E tee -a /etc/crontabs/root >/dev/null
 echo "Crontab entry ${IONOS_CRONTAB} added"
 
 sudo touch /etc/environment
