@@ -35,7 +35,8 @@ RUN apk update --no-cache \
 # ENV SUPERCRONIC="supercronic-linux-$(echo $TARGETPLATFORM | cut -d '/' -f 2)"
 ENV SUPERCRONIC_BASE_URL="https://github.com/aptible/supercronic/releases/download/v0.2.29"
 
-RUN ARCH="$(echo "${TARGETPLATFORM}" | cut -d '/' -f 2)" \
+RUN echo "${TARGETPLATFORM}" \
+    && ARCH="$(echo "${TARGETPLATFORM}" | cut -d '/' -f 2)" \
     && export ARCH \
     && echo "${ARCH}" \
     && wget -q "${SUPERCRONIC_BASE_URL}/${ARCH}" -O /usr/local/bin/supercronic \
