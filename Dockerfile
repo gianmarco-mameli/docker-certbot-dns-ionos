@@ -39,8 +39,7 @@ ENV SUPERCRONIC_BASE_URL="https://github.com/aptible/supercronic/releases/downlo
 
 RUN wget -q "${SUPERCRONIC_BASE_URL}/supercronic-linux-$(echo "${TARGETPLATFORM}" | \
                                     cut -d '/' -f 2)" -O /usr/local/bin/supercronic \
-    && chmod +x /usr/local/bin/supercronic \
-    && /usr/local/bin/supercronic --version
+    && chmod +x /usr/local/bin/supercronic
     #  \
     # && echo "%${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
