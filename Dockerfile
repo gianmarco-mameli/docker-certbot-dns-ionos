@@ -24,9 +24,9 @@ ENV CERTBOT_CRONTABS_DIR="${CERTBOT_BASE_DIR}/etc/crontabs"
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
     && mkdir -p "${CERTBOT_BASE_DIR}" \
-    && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}" \
     && addgroup -g "${USER_GID}" -S "${USERNAME}" \
-    && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}" -h "${CERTBOT_BASE_DIR}"
+    && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}" -h "${CERTBOT_BASE_DIR}" \
+    && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}"
 
     #  \
     # && echo "%${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
