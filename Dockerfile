@@ -44,11 +44,10 @@ RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}" \
 
 WORKDIR "${CERTBOT_BASE_DIR}"
 
-COPY certbot_script.sh ./certbot_script.sh
-COPY certbot_entry.sh ./certbot_entry.sh
+COPY --chown="${USERNAME}":"${USERNAME}" certbot_script.sh ./certbot_script.sh
+COPY --chown="${USERNAME}":"${USERNAME}" certbot_entry.sh ./certbot_entry.sh
 
-RUN ls -la \
-    && chmod +x certbot_script.sh certbot_entry.sh
+RUN chmod +x ./*.sh
 
 HEALTHCHECK CMD ["pgrep","-f","certbot_entry.sh"]
 
