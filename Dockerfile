@@ -10,6 +10,8 @@ LABEL org.opencontainers.image.source="https://github.com/gianmarco-mameli/docke
 LABEL org.opencontainers.image.base.name="certbot/certbot:${CERTBOT_VERSION}"
 LABEL org.opencontainers.image.version="${VERSION}"
 
+ARG TARGETPLATFORM
+ARG TARGETARCH
 ARG VERSION
 
 ENV IONOS_VERSION=${VERSION}
