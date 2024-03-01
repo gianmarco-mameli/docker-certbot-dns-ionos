@@ -24,7 +24,9 @@ ENV CERTBOT_CRONTABS_DIR="${CERTBOT_BASE_DIR}/etc/crontabs"
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
     && addgroup -g "${USER_GID}" -S "${USERNAME}" \
-    && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}"
+    && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}" \
+    && mkdir -p "${CERTBOT_BASE_DIR}" \
+    && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}"
     #  \
     # && echo "%${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
@@ -33,8 +35,7 @@ RUN apk update --no-cache \
 USER ${USERNAME}
 
 RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}" \
-    && mkdir -p "${CERTBOT_BASE_DIR}" \
-                "${CERTBOT_CONFIG_DIR}" \
+    && mkdir -p "${CERTBOT_CONFIG_DIR}" \
                 "${CERTBOT_LOGS_DIR}" \
                 "${CERTBOT_WORK_DIR}" \
                 "${CERTBOT_CRONTABS_DIR}" \
