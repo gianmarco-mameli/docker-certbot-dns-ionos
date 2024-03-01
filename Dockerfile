@@ -53,3 +53,4 @@ HEALTHCHECK CMD ["pgrep","-f","certbot_entry.sh"]
 
 # ENTRYPOINT ["tail", "-f", "/dev/null"] # for testing purposes
 ENTRYPOINT ["/bin/sh","${CERTBOT_BASE_DIR}/certbot_entry.sh"]
+CMD ["/usr/sbin/crond", "-f", "-c", "${CERTBOT_CRONTABS_DIR}"]
