@@ -2,7 +2,7 @@
 
 echo "docker-certbot-dns-ionos v${IONOS_VERSION} started"
 
-echo "${IONOS_CRONTAB} /bin/sh /certbot_script.sh" | tee -a "${CERTBOT_CRONTABS_DIR}/${USERNAME}" >/dev/null
+echo "${IONOS_CRONTAB} /bin/sh /certbot_script.sh" | tee "/tmp/crontabs/certbot" >/dev/null
 echo "Crontab entry ${IONOS_CRONTAB} added"
 
 # touch /etc/environment

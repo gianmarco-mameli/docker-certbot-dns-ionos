@@ -11,6 +11,7 @@ ARG VERSION
 
 ENV IONOS_VERSION=${VERSION}
 
+# if you change the usarname you need to modify the crontabs file accordingly on scripts
 ENV USERNAME=certbot
 ENV USER_UID=1000
 ENV USER_GID="${USER_UID}"
@@ -19,7 +20,7 @@ ENV CERTBOT_BASE_DIR="/srv/${USERNAME}"
 ENV CERTBOT_CONFIG_DIR="${CERTBOT_BASE_DIR}/etc/letsencrypt"
 ENV CERTBOT_LOGS_DIR="${CERTBOT_BASE_DIR}/var/log/letsencrypt"
 ENV CERTBOT_WORK_DIR="${CERTBOT_BASE_DIR}/var/lib/letsencrypt"
-ENV CERTBOT_CRONTABS_DIR="${CERTBOT_BASE_DIR}/etc/crontabs"
+# ENV CERTBOT_CRONTABS_DIR="${CERTBOT_BASE_DIR}/etc/crontabs"
 
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
@@ -44,7 +45,7 @@ RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}" \
     && mkdir -p "${CERTBOT_CONFIG_DIR}" \
                 "${CERTBOT_LOGS_DIR}" \
                 "${CERTBOT_WORK_DIR}" \
-                "${CERTBOT_CRONTABS_DIR}" \
+                /tmp/crontabs \
     && touch "${CERTBOT_CRONTABS_DIR}/${USERNAME}"
     # && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}"
 
@@ -54,4 +55,4 @@ HEALTHCHECK CMD ["pgrep","-f","certbot_entry.sh"]
 
 # ENTRYPOINT ["tail", "-f", "/dev/null"] # for testing purposes
 ENTRYPOINT ["/certbot_entry.sh"]
-CMD ["crond", "-f", "-l", "2", "-c", "${CERTBOT_CRONTABS_DIR}"]
+CMD ["crond", "-f", "-l", "2", "-c", "/tmp/crontabs"]
