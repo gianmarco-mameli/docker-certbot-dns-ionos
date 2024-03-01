@@ -1,3 +1,4 @@
+# trunk-ignore-all(terrascan/AC_DOCKER_0047)
 ARG CERTBOT_VERSION
 FROM certbot/certbot:${CERTBOT_VERSION}
 
@@ -24,18 +25,21 @@ ENV CERTBOT_WORK_DIR="${CERTBOT_BASE_DIR}/var/lib/letsencrypt"
 
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
+    && apk --no-cache add libcap==2.69-r0 \
     && mkdir -p "${CERTBOT_BASE_DIR}" \
     && addgroup -g "${USER_GID}" -S "${USERNAME}" \
     && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}" -h "${CERTBOT_BASE_DIR}" \
-    && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}"
+    && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}" \
+    && chown "${USERNAME}":"${USERNAME}" /usr/sbin/crond \
+    && setcap cap_setgid=ep /usr/sbin/crond
 
     #  \
     # && echo "%${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # && apk add --no-cache sudo=1.9.13_p3-r2 \
 
-COPY --chown="${USERNAME}":"${USERNAME}" certbot_script.sh /certbot_script.sh
-COPY --chown="${USERNAME}":"${USERNAME}" certbot_entry.sh /certbot_entry.sh
+COPY certbot_script.sh /certbot_script.sh
+COPY certbot_entry.sh /certbot_entry.sh
 
 RUN chmod +x /*.sh
 
@@ -49,6 +53,7 @@ RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}" \
     && touch "/tmp/crontabs/${USERNAME}"
     # && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}"
 
+# trunk-ignore(terrascan/AC_DOCKER_0013)
 WORKDIR "${CERTBOT_BASE_DIR}"
 
 HEALTHCHECK CMD ["pgrep","-f","certbot_entry.sh"]
