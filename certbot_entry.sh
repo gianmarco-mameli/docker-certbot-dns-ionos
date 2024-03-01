@@ -12,4 +12,4 @@ printenv | grep -i "IONOS_"
 
 # Execute CMD
 echo "Executing $*"
-exec "$*"
+exec "$@"
