@@ -46,7 +46,7 @@ RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}" \
                 "${CERTBOT_LOGS_DIR}" \
                 "${CERTBOT_WORK_DIR}" \
                 /tmp/crontabs \
-    && touch "${CERTBOT_CRONTABS_DIR}/${USERNAME}"
+    && touch "/tmp/crontabs/${USERNAME}"
     # && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}"
 
 WORKDIR "${CERTBOT_BASE_DIR}"
