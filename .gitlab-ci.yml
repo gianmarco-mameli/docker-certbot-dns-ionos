@@ -46,7 +46,7 @@ buildkit_toml:
 build_publish:
   stage: build
   script:
-    - docker buildx bake --push --file package_bake.hcl --progress plain
+    - docker buildx bake --push --file docker-bake.hcl --progress plain
   # rules:
   #   - changes:
   #       - Dockerfile*
