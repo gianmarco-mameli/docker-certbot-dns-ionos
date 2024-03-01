@@ -15,7 +15,7 @@ ENV USERNAME=certbot
 ENV USER_UID=1000
 ENV USER_GID="${USER_UID}"
 
-ENV CERTBOT_BASE_DIR=/srv/certbot
+ENV CERTBOT_BASE_DIR="/srv/${USERNAME}"
 ENV CERTBOT_CONFIG_DIR="${CERTBOT_BASE_DIR}/etc/letsencrypt"
 ENV CERTBOT_LOGS_DIR="${CERTBOT_BASE_DIR}/var/log/letsencrypt"
 ENV CERTBOT_WORK_DIR="${CERTBOT_BASE_DIR}/var/lib/letsencrypt"
@@ -23,14 +23,20 @@ ENV CERTBOT_CRONTABS_DIR="${CERTBOT_BASE_DIR}/etc/crontabs"
 
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
-    && addgroup -g "${USER_GID}" -S "${USERNAME}" \
-    && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}" \
     && mkdir -p "${CERTBOT_BASE_DIR}" \
-    && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}"
+    && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}" \
+    && addgroup -g "${USER_GID}" -S "${USERNAME}" \
+    && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}" -h "${CERTBOT_BASE_DIR}"
+
     #  \
     # && echo "%${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # && apk add --no-cache sudo=1.9.13_p3-r2 \
+
+COPY --chown="${USERNAME}":"${USERNAME}" certbot_script.sh /certbot_script.sh
+COPY --chown="${USERNAME}":"${USERNAME}" certbot_entry.sh /certbot_entry.sh
+
+RUN chmod +x /*.sh
 
 USER ${USERNAME}
 
@@ -44,13 +50,8 @@ RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}" \
 
 WORKDIR "${CERTBOT_BASE_DIR}"
 
-COPY --chown="${USERNAME}":"${USERNAME}" certbot_script.sh ./certbot_script.sh
-COPY --chown="${USERNAME}":"${USERNAME}" certbot_entry.sh ./certbot_entry.sh
-
-RUN chmod +x ./*.sh
-
 HEALTHCHECK CMD ["pgrep","-f","certbot_entry.sh"]
 
 # ENTRYPOINT ["tail", "-f", "/dev/null"] # for testing purposes
-ENTRYPOINT ["/bin/sh","${CERTBOT_BASE_DIR}/certbot_entry.sh"]
-CMD ["/usr/sbin/crond", "-f", "-c", "${CERTBOT_CRONTABS_DIR}"]
+ENTRYPOINT ["/certbot_entry.sh"]
+CMD ["crond", "-f", "-l", "2", "-c", "${CERTBOT_CRONTABS_DIR}"]
