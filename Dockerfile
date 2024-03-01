@@ -23,16 +23,21 @@ ENV CERTBOT_LOGS_DIR="${CERTBOT_BASE_DIR}/var/log/letsencrypt"
 ENV CERTBOT_WORK_DIR="${CERTBOT_BASE_DIR}/var/lib/letsencrypt"
 # ENV CERTBOT_CRONTABS_DIR="${CERTBOT_BASE_DIR}/etc/crontabs"
 
-RUN apk update --no-cache \
+RUN wget update --no-cache \
     && apk upgrade --no-cache \
-    && apk --no-cache add libcap==2.69-r0 \
+    && apk add --no-cache curl \
     && mkdir -p "${CERTBOT_BASE_DIR}" \
     && addgroup -g "${USER_GID}" -S "${USERNAME}" \
     && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}" -h "${CERTBOT_BASE_DIR}" \
-    && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}" \
-    && chown "${USERNAME}":"${USERNAME}" /usr/sbin/crond \
-    && setcap cap_setgid=ep /usr/sbin/crond
+    && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}"
 
+ENV SUPERCRONIC="supercronic-linux-$(echo $TARGETPLATFORM | cut -d '/' -f 2)"
+ENV SUPERCRONIC_URL="https://github.com/aptible/supercronic/releases/download/v0.2.29/{SUPERCRONIC}"
+
+# SHELL ["/bin/sh", "-eo", "pipefail", "-c"]
+RUN wget -q "$SUPERCRONIC_URL" -O /usr/local/bin/supercronic \
+    && chmod +x /usr/local/bin/supercronic \
+    && /usr/local/bin/supercronic --version
     #  \
     # && echo "%${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
@@ -60,4 +65,4 @@ HEALTHCHECK CMD ["pgrep","-f","certbot_entry.sh"]
 
 # ENTRYPOINT ["tail", "-f", "/dev/null"] # for testing purposes
 ENTRYPOINT ["/certbot_entry.sh"]
-CMD ["crond", "-f", "-l", "2", "-c", "/tmp/crontabs"]
+CMD ["/usr/local/bin/supercronic", "/tmp/crontabs/certbot"]
