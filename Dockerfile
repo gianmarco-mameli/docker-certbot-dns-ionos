@@ -45,6 +45,7 @@ RUN wget -q "${SUPERCRONIC_BASE_URL}/supercronic-linux-$(echo "${TARGETPLATFORM}
 
 # && apk add --no-cache sudo=1.9.13_p3-r2 \
 
+COPY entrypoint.sh /entrypoint.sh
 COPY certbot_script.sh /certbot_script.sh
 COPY certbot_entry.sh /certbot_entry.sh
 
@@ -66,5 +67,5 @@ WORKDIR "${CERTBOT_BASE_DIR}"
 HEALTHCHECK CMD ["pgrep","-f","certbot_entry.sh"]
 
 # ENTRYPOINT ["tail", "-f", "/dev/null"] # for testing purposes
-ENTRYPOINT ["/certbot_entry.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/local/bin/supercronic", "/tmp/crontabs/certbot"]
