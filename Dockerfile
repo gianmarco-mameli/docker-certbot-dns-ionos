@@ -31,10 +31,11 @@ RUN apk update --no-cache \
     && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}"
 
 ENV SUPERCRONIC="supercronic-linux-$(echo $TARGETPLATFORM | cut -d '/' -f 2)"
-ENV SUPERCRONIC_URL="https://github.com/aptible/supercronic/releases/download/v0.2.29/{SUPERCRONIC}"
+ENV SUPERCRONIC_URL="https://github.com/aptible/supercronic/releases/download/v0.2.29/${SUPERCRONIC}"
 
 # SHELL ["/bin/sh", "-eo", "pipefail", "-c"]
-RUN wget -q "$SUPERCRONIC_URL" -O /usr/local/bin/supercronic \
+RUN echo ${SUPERCRONIC} \
+    && wget -q "$SUPERCRONIC_URL" -O /usr/local/bin/supercronic \
     && chmod +x /usr/local/bin/supercronic \
     && /usr/local/bin/supercronic --version
     #  \
