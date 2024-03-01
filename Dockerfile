@@ -47,7 +47,8 @@ WORKDIR "${CERTBOT_BASE_DIR}"
 COPY certbot_script.sh ./certbot_script.sh
 COPY certbot_entry.sh ./certbot_entry.sh
 
-RUN chmod +x certbot_script.sh certbot_entry.sh
+RUN ls -la \
+    && chmod +x certbot_script.sh certbot_entry.sh
 
 HEALTHCHECK CMD ["pgrep","-f","certbot_entry.sh"]
 
