@@ -23,9 +23,8 @@ ENV CERTBOT_LOGS_DIR="${CERTBOT_BASE_DIR}/var/log/letsencrypt"
 ENV CERTBOT_WORK_DIR="${CERTBOT_BASE_DIR}/var/lib/letsencrypt"
 # ENV CERTBOT_CRONTABS_DIR="${CERTBOT_BASE_DIR}/etc/crontabs"
 
-RUN wget update --no-cache \
+RUN apk update --no-cache \
     && apk upgrade --no-cache \
-    && apk add --no-cache curl \
     && mkdir -p "${CERTBOT_BASE_DIR}" \
     && addgroup -g "${USER_GID}" -S "${USERNAME}" \
     && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}" -h "${CERTBOT_BASE_DIR}" \
