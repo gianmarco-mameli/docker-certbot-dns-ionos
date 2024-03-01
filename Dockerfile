@@ -2,6 +2,8 @@
 ARG CERTBOT_VERSION
 FROM certbot/certbot:${CERTBOT_VERSION}
 
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
+
 LABEL org.opencontainers.image.authors="gnammyx@gmail.com"
 LABEL org.opencontainers.image.url="https://hub.docker.com/repository/docker/gmmserv/docker-certbot-dns-ionos"
 LABEL org.opencontainers.image.source="https://github.com/gianmarco-mameli/docker-certbot-dns-ionos"
@@ -30,12 +32,10 @@ RUN apk update --no-cache \
     && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}" -h "${CERTBOT_BASE_DIR}" \
     && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}"
 
-ENV SUPERCRONIC="supercronic-linux-$(echo $TARGETPLATFORM | cut -d '/' -f 2)"
-ENV SUPERCRONIC_URL="https://github.com/aptible/supercronic/releases/download/v0.2.29/${SUPERCRONIC}"
+# ENV SUPERCRONIC="supercronic-linux-$(echo $TARGETPLATFORM | cut -d '/' -f 2)"
+ENV SUPERCRONIC_BASE_URL="https://github.com/aptible/supercronic/releases/download/v0.2.29"
 
-# SHELL ["/bin/sh", "-eo", "pipefail", "-c"]
-RUN echo ${SUPERCRONIC} \
-    && wget -q "$SUPERCRONIC_URL" -O /usr/local/bin/supercronic \
+RUN wget -q "${SUPERCRONIC_BASE_URL}/$(echo "${TARGETPLATFORM}" | cut -d '/' -f 2)" -O /usr/local/bin/supercronic \
     && chmod +x /usr/local/bin/supercronic \
     && /usr/local/bin/supercronic --version
     #  \
