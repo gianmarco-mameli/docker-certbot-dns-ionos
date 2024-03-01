@@ -11,6 +11,9 @@ else
 fi
 
 /usr/local/bin/certbot certonly \
+    --config-dir "${CERTBOT_CONFIG_DIR}" \
+    --logs-dir "${CERTBOT_LOGS_DIR}" \
+	--work-dir "${CERTBOT_WORK_DIR}" \
 	--authenticator dns-ionos \
 	--dns-ionos-credentials "${IONOS_CREDENTIALS}" \
 	--dns-ionos-propagation-seconds "${IONOS_PROPAGATION}" \
@@ -19,4 +22,4 @@ fi
 	--server "${IONOS_SERVER}" \
 	--agree-tos \
 	--email "${IONOS_EMAIL}" \
-	--rsa-key-size 4096 $DOMAINS_ARGS
+	--rsa-key-size 4096 "${DOMAINS_ARGS}"
