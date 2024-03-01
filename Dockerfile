@@ -11,10 +11,10 @@ LABEL org.opencontainers.image.base.name="certbot/certbot:${CERTBOT_VERSION}"
 LABEL org.opencontainers.image.version="${VERSION}"
 
 ARG TARGETPLATFORM
-ARG TARGETARCH
 ARG VERSION
 
 ENV IONOS_VERSION=${VERSION}
+ENV TARGETPLATFORM=${TARGETPLATFORM}
 
 # if you change the usarname you need to modify the crontabs file accordingly on scripts
 ENV USERNAME=certbot
