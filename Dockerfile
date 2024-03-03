@@ -33,7 +33,7 @@ RUN apk update --no-cache \
     && addgroup -g "${USER_GID}" -S "${USERNAME}" \
     && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}" -h "${CERTBOT_BASE_DIR}" \
     && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}" \
-    && echo "permit ${USERNAME} keepenv as root cmd /certbot_permissions.sh" | tee -a "/etc/doas.d/doas.conf" \
+    && echo "permit nopass keepenv ${USERNAME} as root cmd /certbot_permissions.sh" | tee -a "/etc/doas.d/doas.conf" \
     && doas -C "/etc/doas.d/doas.conf"
 
 ENV SUPERCRONIC_BASE_URL="https://github.com/aptible/supercronic/releases/download/v0.2.29"
