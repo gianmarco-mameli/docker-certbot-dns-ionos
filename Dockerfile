@@ -28,7 +28,7 @@ SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
-    $$ apk install --no-cache doas \
+    && apk install --no-cache doas \
     && mkdir -p "${CERTBOT_BASE_DIR}" \
     && addgroup -g "${USER_GID}" -S "${USERNAME}" \
     && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}" -h "${CERTBOT_BASE_DIR}" \
