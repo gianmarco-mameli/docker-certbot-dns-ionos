@@ -24,24 +24,30 @@ ENV CERTBOT_LOGS_DIR="${CERTBOT_BASE_DIR}/var/log/letsencrypt"
 ENV CERTBOT_WORK_DIR="${CERTBOT_BASE_DIR}/var/lib/letsencrypt"
 # ENV CERTBOT_CRONTABS_DIR="${CERTBOT_BASE_DIR}/etc/crontabs"
 
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
+
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
+    $$ apk install --no-cache doas \
     && mkdir -p "${CERTBOT_BASE_DIR}" \
     && addgroup -g "${USER_GID}" -S "${USERNAME}" \
     && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}" -h "${CERTBOT_BASE_DIR}" \
-    && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}"
+    && chown -R "${USERNAME}":"${USERNAME}" "${CERTBOT_BASE_DIR}" \
+    && echo "permit ${USERNAME} keepenv as root cmd /certbot_permissions.sh" | tee -a "/etc/doas.d/doas.conf" \
+    && doas -c "/etc/doas.d/doas.conf"
 
 ENV SUPERCRONIC_BASE_URL="https://github.com/aptible/supercronic/releases/download/v0.2.29"
 
-SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
+# SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 RUN wget -q "${SUPERCRONIC_BASE_URL}/supercronic-linux-$(echo "${TARGETPLATFORM}" | \
                                     cut -d '/' -f 2)" -O /usr/local/bin/supercronic \
     && chmod +x /usr/local/bin/supercronic
 
 COPY entrypoint.sh /entrypoint.sh
 COPY certbot_script.sh /certbot_script.sh
+COPY certbot_permissions.sh /certbot_permissions.sh
 
-RUN chmod +x /*.sh
+RUN chmod 555 /*.sh
 
 USER ${USERNAME}
 

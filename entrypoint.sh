@@ -1,5 +1,7 @@
 #!/bin/sh
 
+doas /certbot_permissions.sh
+
 echo "${IONOS_CRONTAB} /certbot_script.sh" | tee -a "/tmp/crontabs/certbot" >/dev/null
 
 echo time=\""$(date -Is || true)"\"' level=info msg='\""docker-certbot-dns-ionos v${IONOS_VERSION} started"\"
