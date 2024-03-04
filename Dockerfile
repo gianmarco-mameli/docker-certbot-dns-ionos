@@ -44,7 +44,8 @@ RUN wget -q "${SUPERCRONIC_BASE_URL}/supercronic-linux-$(echo "${TARGETPLATFORM}
                                     cut -d '/' -f 2)" -O /usr/local/bin/supercronic \
     && chmod +x /usr/local/bin/supercronic
 
-RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}"
+RUN pip3 list -o | cut -f1 -d' ' | tr " " "\n" | awk '{if(NR>=3)print}' | cut -d' ' -f1 | xargs -n1 pip3 install --no-cache-dir -U \
+    && pip3 install --no-cache-dir "certbot-dns-ionos==${VERSION}"
 
 COPY entrypoint.sh /entrypoint.sh
 COPY certbot_script.sh /certbot_script.sh
