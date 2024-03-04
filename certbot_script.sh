@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# Check that IONOS_DOMAINS are populated
 if env | grep -w IONOS_DOMAINS >/dev/null; then
 	DOMAINS=$(echo "${IONOS_DOMAINS}" | tr "," " ")
 	for domain in ${DOMAINS}; do
@@ -10,6 +11,7 @@ else
 	exit 10
 fi
 
+# Start certbot
 /usr/local/bin/certbot certonly \
     --config-dir "${CERTBOT_CONFIG_DIR}" \
     --logs-dir "${CERTBOT_LOGS_DIR}" \
@@ -19,7 +21,7 @@ fi
 	--dns-ionos-propagation-seconds "${IONOS_PROPAGATION}" \
 	--non-interactive \
 	--expand \
-	--server "${IONOS_SERVER}" \
 	--agree-tos \
 	--email "${IONOS_EMAIL}" \
 	--rsa-key-size 4096 ${DOMAINS_ARGS}
+    # --server "${IONOS_SERVER}" \
