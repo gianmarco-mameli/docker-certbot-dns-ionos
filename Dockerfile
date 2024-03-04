@@ -19,6 +19,8 @@ ENV USER_GID="${USER_UID}"
 
 ENV CERTBOT_BASE_DIR="/certbot"
 ENV CERTBOT_CONFIG_DIR="${CERTBOT_BASE_DIR}/etc/letsencrypt"
+ENV CERTBOT_LIVE_DIR="${CERTBOT_CONFIG_DIR}/live"
+ENV CERTBOT_ARCHIVE_DIR="${CERTBOT_CONFIG_DIR}/archive"
 ENV CERTBOT_LOGS_DIR="${CERTBOT_BASE_DIR}/var/log/letsencrypt"
 ENV CERTBOT_WORK_DIR="${CERTBOT_BASE_DIR}/var/lib/letsencrypt"
 # ENV CERTBOT_CRONTABS_DIR="${CERTBOT_BASE_DIR}/etc/crontabs"
@@ -54,7 +56,8 @@ USER ${USERNAME}
 
 WORKDIR "${CERTBOT_BASE_DIR}"
 
-RUN mkdir -p "${CERTBOT_CONFIG_DIR}" \
+RUN mkdir -p "${CERTBOT_LIVE_DIR}" \
+                "${CERTBOT_ARCHIVE_DIR}" \
                 "${CERTBOT_LOGS_DIR}" \
                 "${CERTBOT_WORK_DIR}" \
                 /tmp/crontabs \
