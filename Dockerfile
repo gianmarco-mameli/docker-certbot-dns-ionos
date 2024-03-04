@@ -13,7 +13,6 @@ ARG VERSION
 ENV IONOS_VERSION=${VERSION}
 ENV TARGETPLATFORM=${TARGETPLATFORM}
 
-# if you change the username you need to modify the crontabs file accordingly on scripts
 ENV USERNAME=certbot
 ENV USER_UID=1000
 ENV USER_GID="${USER_UID}"
@@ -43,6 +42,8 @@ RUN wget -q "${SUPERCRONIC_BASE_URL}/supercronic-linux-$(echo "${TARGETPLATFORM}
                                     cut -d '/' -f 2)" -O /usr/local/bin/supercronic \
     && chmod +x /usr/local/bin/supercronic
 
+RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}"
+
 COPY entrypoint.sh /entrypoint.sh
 COPY certbot_script.sh /certbot_script.sh
 COPY certbot_permissions.sh /certbot_permissions.sh
@@ -51,14 +52,13 @@ RUN chmod 555 /*.sh
 
 USER ${USERNAME}
 
-RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}" \
-    && mkdir -p "${CERTBOT_CONFIG_DIR}" \
+WORKDIR "${CERTBOT_BASE_DIR}"
+
+RUN mkdir -p "${CERTBOT_CONFIG_DIR}" \
                 "${CERTBOT_LOGS_DIR}" \
                 "${CERTBOT_WORK_DIR}" \
                 /tmp/crontabs \
     && touch "/tmp/crontabs/${USERNAME}"
-
-WORKDIR "${CERTBOT_BASE_DIR}"
 
 HEALTHCHECK CMD ["pgrep","-f","certbot_entry.sh"]
 
