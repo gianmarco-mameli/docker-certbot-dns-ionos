@@ -15,10 +15,10 @@ You need mapping of the following internal folders, that certbot uses as base di
 - /certbot/etc/letsencrypt/.secrets # path containing Ionos credential file
 ```
 
-You need to create the file containing the credentials for the ionos api login, you can specify the path via env variable (change the volume accordingly).
+Create the file containing the credentials for the ionos api login, you can specify the path via env variable (change the volume accordingly).
 Make sure you created the API key on [Ionos control panel](https://developer.hosting.ionos.it/keys)
 
-This is the template to use (also available in the repository ionos.ini.tmpl)
+This is the template to use (also available in the repository ionos.ini.tmpl or in the original [project repo](https://github.com/helgeerbe/certbot-dns-ionos#credentials))
 
 ```ini
 # Instructions: <https://github.com/helgeerbe/certbot-dns-ionos>
