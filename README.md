@@ -105,7 +105,7 @@ Feel free to open issues or pull requests if you find bugs or feature lack
 
 ## Next steps
 
-Coming soon!
+- enable/disable supercronic if needed, for use with external scheduler
 
 Any idea is welcome :)
 
