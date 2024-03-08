@@ -36,6 +36,10 @@ buildkit_toml:
   artifacts:
     paths:
       - buildkitd.toml
+  rules:
+    - changes:
+        - Dockerfile*
+  when: manual
 
 .hadolint:
   stage: linting
@@ -45,6 +49,7 @@ buildkit_toml:
   rules:
     - changes:
         - Dockerfile*
+  when: manual
 
 build_publish:
   stage: build
@@ -54,17 +59,18 @@ build_publish:
     - changes:
         - Dockerfile*
         - docker-bake.hcl
+  when: manual
 
 publish_readme:
   stage: publish
   script:
-    - docker run --rm -t \
-      -v $(pwd):/srv \
-      -e DOCKER_USER=${DOCKERHUB_USER} -e DOCKER_PASS=${DOCKERHUB_PASSWORD}\
-      ${PUSHRM_IMAGE} --file /srv/README \
+    - docker run --rm -t
+      -v $(pwd):/srv
+      -e DOCKER_USER=${DOCKERHUB_USER} -e DOCKER_PASS=${DOCKERHUB_PASSWORD}
+      ${PUSHRM_IMAGE} --file /srv/README
       --short "${IMAGE_DESCRIPTION}" --debug ${REGISTRY_IMAGE_PUBLIC}
-    - docker run --rm -t \
-      -v $(pwd):/srv \
-      -e DOCKER_USER=${HARBOR_USERNAME} -e DOCKER_PASS=${HARBOR_PASSWORD} \
-      ${PUSHRM_IMAGE} --file /srv/README \
+    - docker run --rm -t
+      -v $(pwd):/srv
+      -e DOCKER_USER=${HARBOR_USERNAME} -e DOCKER_PASS=${HARBOR_PASSWORD}
+      ${PUSHRM_IMAGE} --file /srv/README
       --provider harbor2 --debug ${REGISTRY_IMAGE}
