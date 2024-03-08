@@ -66,6 +66,7 @@ publish_readme:
   before_script: [] # to exclude default before_script
   after_script: [] # to exclude default after_script
   script:
+    - ls -la $(pwd)
     - docker run --rm -t
       -v $(pwd):/srv
       -e DOCKER_USER=${DOCKERHUB_USER} -e DOCKER_PASS=${DOCKERHUB_PASSWORD}
