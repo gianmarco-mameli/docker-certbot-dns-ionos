@@ -36,10 +36,10 @@ buildkit_toml:
   artifacts:
     paths:
       - buildkitd.toml
-  rules:
-    - changes:
-        - Dockerfile*
-  when: manual
+  # rules:
+  #   - changes:
+  #       - Dockerfile*
+  # when: manual
 
 .hadolint:
   stage: linting
