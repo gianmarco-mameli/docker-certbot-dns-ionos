@@ -63,6 +63,8 @@ build_publish:
 
 publish_readme:
   stage: publish
+  before_script: [] # to exclude default before_script
+  after_script: [] # to exclude default after_script
   script:
     - docker run --rm -t
       -v $(pwd):/srv
