@@ -68,12 +68,12 @@ publish_readme:
   script:
     - ls -la $(pwd)
     - docker run --rm -t
-      -v $(pwd):/srv
+      -v $(pwd):/mnt
       -e DOCKER_USER=${DOCKERHUB_USER} -e DOCKER_PASS=${DOCKERHUB_PASSWORD}
-      ${PUSHRM_IMAGE} --file /srv/README
+      ${PUSHRM_IMAGE} --file /mnt/README
       --short "${IMAGE_DESCRIPTION}" --debug ${REGISTRY_IMAGE_PUBLIC}
     - docker run --rm -t
-      -v $(pwd):/srv
+      -v $(pwd):/mnt
       -e DOCKER_USER=${HARBOR_USERNAME} -e DOCKER_PASS=${HARBOR_PASSWORD}
-      ${PUSHRM_IMAGE} --file /srv/README
+      ${PUSHRM_IMAGE} --file /mnt/README
       --provider harbor2 --debug ${REGISTRY_IMAGE}
