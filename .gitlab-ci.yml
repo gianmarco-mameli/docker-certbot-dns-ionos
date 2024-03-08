@@ -66,7 +66,7 @@ publish_readme:
   before_script: [] # to exclude default before_script
   after_script: [] # to exclude default after_script
   script:
-    - docker run --rm
+    - docker run --rm -t
       -v "$(pwd):/mnt"
       --entrypoint="ls"
       ${PUSHRM_IMAGE} /mnt
