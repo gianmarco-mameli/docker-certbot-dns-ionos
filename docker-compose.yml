@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  certbot_ionos:
+    image: gmmserv/docker-certbot-dns-ionos:2024.1.8
+    volumes:
+      - "~/certbot:/certbot"
+      - "~/certbot/etc/letsencrypt/live:/certbot/etc/letsencrypt/live"
+      - "~/certbot/etc/letsencrypt/.secrets:/certbot/etc/letsencrypt/.secrets"
+    environment:
+      - TZ=Europe/Rome
+      - IONOS_CREDENTIALS=/certbot/etc/letsencrypt/.secrets/ionos.ini
+      - IONOS_CRONTAB=0 13 * * *
+      - IONOS_DOMAINS=test.ionos.io
+      - IONOS_PROPAGATION=300
+      - IONOS_EMAIL=test@test.com
