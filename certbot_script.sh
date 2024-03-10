@@ -23,5 +23,6 @@ fi
 	--expand \
 	--agree-tos \
 	--email "${IONOS_EMAIL}" \
-	--rsa-key-size 4096 ${DOMAINS_ARGS}
+	--rsa-key-size 4096 ${DOMAINS_ARGS} \
+	"${IONOS_ARGS}"
     # --server "${IONOS_SERVER}" \
