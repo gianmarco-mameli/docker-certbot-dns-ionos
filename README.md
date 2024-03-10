@@ -105,9 +105,9 @@ Feel free to open issues or pull requests if you find bugs or feature lack
 
 ## Next steps
 
-- push README to DockerHUB
 - enable/disable supercronic if needed, for use with external scheduler
 - better separation of Harbor and DockerHUB publish
+- add other parameters to certbot
 
 Any idea is welcome :)
 
