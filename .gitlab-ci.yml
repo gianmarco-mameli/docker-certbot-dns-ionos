@@ -71,8 +71,9 @@ publish_readme:
       -e DOCKER_USER=${DOCKERHUB_USER} -e DOCKER_PASS=${DOCKERHUB_PASSWORD}
       ${PUSHRM_IMAGE} --file /mnt/README.md
       --short "${IMAGE_DESCRIPTION}" --debug ${REGISTRY_IMAGE_PUBLIC}
-    - docker run --rm
-      -v "$(pwd):/mnt"
-      -e DOCKER_USER=${HARBOR_USERNAME} -e DOCKER_PASS=${HARBOR_PASSWORD}
-      ${PUSHRM_IMAGE} --file /mnt/README.md
-      --provider harbor2 --debug ${REGISTRY_IMAGE}
+    # to complete: push to harbor of README
+    # - docker run --rm
+    #   -v "$(pwd):/mnt"
+    #   -e DOCKER_USER=${HARBOR_USERNAME} -e DOCKER_PASS=${HARBOR_PASSWORD}
+    #   ${PUSHRM_IMAGE} --file /mnt/README.md
+    #   --provider harbor2 --debug ${REGISTRY_IMAGE}
