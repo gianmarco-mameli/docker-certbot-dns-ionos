@@ -49,7 +49,7 @@ buildkit_toml:
   rules:
     - changes:
         - Dockerfile*
-  when: manual
+  # when: manual
 
 build_publish:
   stage: build
