@@ -106,15 +106,18 @@ Feel free to open issues or pull requests if you find bugs or feature lack
 ## Next steps
 
 - enable/disable supercronic if needed, for use with external scheduler
+- better separation of Harbor and DockerHUB publish
+- add other parameters to certbot
 
 Any idea is welcome :)
 
-### Tools and links
+### Credits, Tools and links
 
 - [certbot](https://github.com/certbot/certbot)
 - [certbot-dns-ionos](https://github.com/helgeerbe/certbot-dns-ionos)
 - [supercronic](https://github.com/aptible/supercronic)
 - [doas](https://github.com/Duncaen/OpenDoas)
+- [pushrm](https://github.com/christian-korneck/docker-pushrm)
 
 ### Support
 
