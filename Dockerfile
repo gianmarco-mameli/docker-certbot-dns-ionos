@@ -50,10 +50,7 @@ RUN wget -q "${SUPERCRONIC_BASE_URL}/supercronic-linux-$(echo "${TARGETPLATFORM}
 RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}"
 
 # copy anda config scripts
-COPY entrypoint.sh /entrypoint.sh
-COPY certbot_script.sh /certbot_script.sh
-COPY certbot_permissions.sh /certbot_permissions.sh
-
+COPY scripts/* /
 RUN chmod 555 /*.sh
 
 USER ${USERNAME}
