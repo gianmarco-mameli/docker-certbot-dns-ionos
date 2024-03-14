@@ -26,3 +26,11 @@ fi
 	--rsa-key-size 4096 ${DOMAINS_ARGS} \
 	${IONOS_ARGS}
     # --server "${IONOS_SERVER}" \
+
+if [ $? -eq 0 ]; then
+    echo "Certbot run ok"
+	touch "${CERTBOT_LOCK_FILE}"
+else
+    echo "Certbot run failed, check logs"
+	rm -f "${CERTBOT_LOCK_FILE}"
+fi

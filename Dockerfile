@@ -26,6 +26,7 @@ ENV CERTBOT_LIVE_DIR="${CERTBOT_CONFIG_DIR}/live"
 ENV CERTBOT_ARCHIVE_DIR="${CERTBOT_CONFIG_DIR}/archive"
 ENV CERTBOT_LOGS_DIR="${CERTBOT_BASE_DIR}/var/log/letsencrypt"
 ENV CERTBOT_WORK_DIR="${CERTBOT_BASE_DIR}/var/lib/letsencrypt"
+ENV CERTBOT_LOCK_FILE="/tmp/certbot_script.lock"
 
 # update image, create user and set some permissions
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
@@ -64,7 +65,7 @@ RUN mkdir -p "${CERTBOT_LIVE_DIR}" \
                 /tmp/crontabs \
     && touch "/tmp/crontabs/${USERNAME}"
 
-HEALTHCHECK CMD ["pgrep","-f","certbot_entry.sh"]
+HEALTHCHECK CMD ["sh", "-e", "${CERTBOT_LOCK_FILE}"]
 
 # ENTRYPOINT ["tail", "-f", "/dev/null"] # for testing purposes
 ENTRYPOINT ["/entrypoint.sh"]
