@@ -65,7 +65,7 @@ RUN mkdir -p "${CERTBOT_LIVE_DIR}" \
                 /tmp/crontabs \
     && touch "/tmp/crontabs/${USERNAME}"
 
-HEALTHCHECK CMD ["sh", "-e", "${CERTBOT_LOCK_FILE}"]
+HEALTHCHECK CMD ["sh", "-e", "/tmp/certbot_script.lock"]
 
 # ENTRYPOINT ["tail", "-f", "/dev/null"] # for testing purposes
 ENTRYPOINT ["/entrypoint.sh"]
