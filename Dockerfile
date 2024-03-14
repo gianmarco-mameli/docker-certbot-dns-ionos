@@ -32,6 +32,7 @@ SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
     && apk add --no-cache doas==6.8.2-r4 \
+                          curl==8.5.0-r0 \
     && mkdir -p "${CERTBOT_BASE_DIR}" \
     && addgroup -g "${USER_GID}" -S "${USERNAME}" \
     && adduser -u "${USER_UID}" -S "${USERNAME}" -G "${USERNAME}" -h "${CERTBOT_BASE_DIR}" \
@@ -49,10 +50,7 @@ RUN wget -q "${SUPERCRONIC_BASE_URL}/supercronic-linux-$(echo "${TARGETPLATFORM}
 RUN pip install --no-cache-dir "certbot-dns-ionos==${VERSION}"
 
 # copy anda config scripts
-COPY entrypoint.sh /entrypoint.sh
-COPY certbot_script.sh /certbot_script.sh
-COPY certbot_permissions.sh /certbot_permissions.sh
-
+COPY scripts/* /
 RUN chmod 555 /*.sh
 
 USER ${USERNAME}

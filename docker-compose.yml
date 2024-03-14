@@ -13,3 +13,4 @@ services:
       - IONOS_DOMAINS=test.ionos.io
       - IONOS_PROPAGATION=300
       - IONOS_EMAIL=test@test.com
+      # - IONOS_ARGS # optional
