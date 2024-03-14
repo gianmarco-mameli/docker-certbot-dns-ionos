@@ -68,4 +68,4 @@ HEALTHCHECK CMD ["pgrep","-f","certbot_entry.sh"]
 
 # ENTRYPOINT ["tail", "-f", "/dev/null"] # for testing purposes
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/usr/local/bin/supercronic", "/tmp/crontabs/certbot"]
+CMD ["/usr/local/bin/supercronic", "-passthrough-logs", "/tmp/crontabs/certbot"]
